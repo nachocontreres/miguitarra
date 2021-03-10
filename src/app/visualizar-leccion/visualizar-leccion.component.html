@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<title>miGuitarra</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+<body class="mg-negro">
+  <nav class="mg-barralateral mg-barra-bloque mg-chico mg-ocultar-chico mg-centrar">
+    <a href="/verListado" class="mg-item-barra mg-boton mg-padding-grande mg-hover-negro">
+      <i class="fas fa-guitar mg-xxgrande"></i>
+      <p>Ver Lecciones</p>
+    </a>
+    <a href="/realizarLeccion" class="mg-item-barra mg-boton mg-padding-grande mg-negro">
+      <i class="fas fa-folder-plus mg-xxgrande"></i>
+      <p>Realizar Lección</p>
+    </a>
+  </nav>
+
+  <div class="mg-top mg-ocultar-grande mg-ocultar-mediano" id="myNavbar">
+    <div class="mg-barra mg-negro mg-opacidad mg-hover-opacidad-off mg-centrar mg-chico">
+      <a href="/verListado" class="mg-item-barra mg-boton" style="width:25% !important">Ver Lecciones</a>
+      <a href="/realizarLeccion" class="mg-item-barra mg-boton" style="width:25% !important">Realizar Lección</a>
+    </div>
+  </div>
+
+  <div class="mg-padding-grande" id="main">
+    <header class="mg-contenedor mg-padding-32 mg-centrar mg-negro" id="home">
+      <img src="../assets/images/miGuitarra.png" alt="Logo miGuitarra" style="width:100%">
+    </header>
+    <div *ngIf="!hayError; else hay_error">
+      <div class="mg-padding-64 mg-contenido" id="photos">
+        <legend class="mg-xxxgrande">{{leccion.titulo}}</legend>
+        <div>
+          <h4 class="mg-margen-visualizar-leccion">Descipción de la lección:</h4>
+          <input class="mg-descripcion-leccion form-control-plaintext" value ={{leccion.descripcion}}>
+          <iframe class= "mg-margen-visualizar-leccion"width="560" height="315" [src]="embedUrl" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;" allowfullscreen></iframe>
+            <h4 *ngIf="leccion.urlTablatura" class="mg-margen-visualizar-leccion">Tablatura</h4>
+          <a class="mg-tablatura" href="{{leccion.urlTablatura}}">{{leccion.urlTablatura}}</a>
+        </div>
+      </div>
+    </div>
+    <ng-template #hay_error>
+      <div class="alert alert-danger">
+        {{ mensajeError }}
+      </div>
+    </ng-template>
+  </div>
+</body>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>miGuitarra</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+<body class="mg-negro">
+  <nav class="mg-barralateral mg-barra-bloque mg-chico mg-ocultar-chico mg-centrar">
+    <a href="/verListado" class="mg-item-barra mg-boton mg-padding-grande mg-hover-negro">
+      <i class="fas fa-guitar mg-xxgrande"></i>
+      <p>Ver Lecciones</p>
+    </a>
+    <a routerLink="/realizarLeccion" class="mg-item-barra mg-boton mg-padding-grande mg-negro">
+      <i class="fas fa-folder-plus mg-xxgrande"></i>
+      <p>Realizar Lección</p>
+    </a>
+  </nav>
+
+  <div class="mg-top mg-ocultar-grande mg-ocultar-mediano" id="myNavbar">
+    <div class="mg-barra mg-negro mg-opacidad mg-hover-opacidad-off mg-centrar mg-chico">
+      <a href="/verListado" class="mg-item-barra mg-boton" style="width:25% !important">Ver Lecciones</a>
+      <a href="/realizarLeccion" class="mg-item-barra mg-boton" style="width:25% !important">Realizar Lección</a>
+    </div>
+  </div>
+
+  <div class="mg-padding-grande" id="main">
+    <header class="mg-contenedor mg-padding-32 mg-centrar mg-negro" id="home">
+      <img src="../assets/images/miGuitarra.png" alt="Logo miGuitarra" style="width:100%">
+    </header>
+
+    <div class="mg-padding-64 mg-contenedor mg-texto-gris" id="formulario">
+      <h2 class="mg-texto-gris-claro">Realizar Lección</h2>
+
+      <form [formGroup]="leccionForm" (ngSubmit)="onSubmit()" #f="ngForm">
+        <div class="form-group">
+          <label for="titulo">Título de la lección</label>
+          <input type="text" class="form-control" id="titulo" name="titulo" formControlName="titulo">
+          <div *ngIf="tituloInvalido()" class="alert alert-danger">
+            {{this.serviceErrors.titulo || 'Error en el título.'}}
+          </div>
+          <div
+            *ngIf="leccionFormControl.titulo.invalid && (leccionFormControl.titulo.dirty || leccionFormControl.titulo.touched)"
+            class="alert alert-danger">
+            <div *ngIf="leccionFormControl.titulo.errors.required">
+              El título es requerido.
+            </div>
+            <div *ngIf="leccionFormControl.titulo.errors.minlength">
+              El título debe tener un largo de al menos 5 caracteres.
+            </div>
+            <div *ngIf="leccionFormControl.titulo.errors.maxlength">
+              El título debe tener un largo máximo de 35 caracteres.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="descripcion">Descripción de la lección</label>
+          <textarea class="form-control" id="descripcion" name="descripcion" formControlName="descripcion"></textarea>
+          <div *ngIf="descripcionInvalida()" class="alert alert-danger">
+            {{this.serviceErrors.descripcion || 'Descripción es requerida.'}}
+          </div>
+          <div
+            *ngIf="leccionFormControl.descripcion.invalid && (leccionFormControl.descripcion.dirty || leccionFormControl.descripcion.touched)"
+            class="alert alert-danger">
+            <div *ngIf="leccionFormControl.descripcion.errors.required">
+              La descripción es requerida.
+            </div>
+            <div *ngIf="leccionFormControl.descripcion.errors.minlength">
+              La descripción debe tener un largo de al menos 5 caracteres.
+            </div>
+            <div *ngIf="leccionFormControl.descripcion.errors.maxlength">
+              La descripción debe tener un largo máximo de 500 caracteres.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="url">Url del video</label>
+          <input type="text" class="form-control" id="url" name="url" formControlName="url">
+          <div *ngIf="urlInvalida()" class="alert alert-danger">
+            {{this.serviceErrors.url || 'Url es requerida.'}}
+          </div>
+          <div
+            *ngIf="leccionFormControl.url.invalid && (leccionFormControl.url.dirty || leccionFormControl.url.touched)"
+            class="alert alert-danger">
+            <div *ngIf="leccionFormControl.url.errors.required">
+              La url del video es requerida.
+            </div>
+            <div *ngIf="leccionFormControl.url.errors.minlength">
+              La url del video debe tener un largo de al menos 5 caracteres.
+            </div>
+            <div *ngIf="leccionFormControl.url.errors.maxlength">
+              La url del video debe tener un largo máximo de 200 caracteres.
+            </div>
+            <div *ngIf="leccionFormControl.url.errors.pattern">
+              Debe ser una url de youtube válida
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="urlTablatura">Url de la tablatura</label>
+          <input type="text" class="form-control" id="urlTablatura" name="urlTablatura" formControlName="urlTablatura">
+          <div *ngIf="urlTablaturaInvalida()" class="alert alert-danger">
+            {{this.serviceErrors.urlTablatura || 'Url de la tablatura es requerida.'}}
+          </div>
+          <div
+            *ngIf="leccionFormControl.urlTablatura.invalid && (leccionFormControl.urlTablatura.dirty || leccionFormControl.urlTablatura.touched)"
+            class="alert alert-danger">
+            <div *ngIf="leccionFormControl.urlTablatura.errors.minlength">
+              La url de la tablatura debe tener un largo de al menos 5 caracteres.
+            </div>
+            <div *ngIf="leccionFormControl.urlTablatura.errors.maxlength">
+              La url de la tablatura debe tener un largo máximo de 200 caracteres.
+            </div>
+            <div *ngIf="leccionFormControl.urlTablatura.errors.pattern">
+              La url debe ser una dirección válida de internet incluido el http(s)://.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="dificultad">Nivel de dificultad</label>
+          <select class="form-control" id="dificultad" name="dificultad" formControlName="dificultad">
+            <option *ngFor="let nivel of niveles" [value]="nivel">{{nivel}}</option>
+          </select>
+          <div *ngIf="dificultadInvalida()" class="alert alert-danger">
+            {{this.serviceErrors.dificultad || 'Dificultad es requerida.'}}
+          </div>
+        </div>
+        <button type="submit" class="btn btn-success float-right" [disabled]="!f.form.valid">Agregar lección</button>
+      </form>
+    </div>
+  </div>
+</body>

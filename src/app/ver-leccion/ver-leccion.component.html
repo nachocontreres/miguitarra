@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<title>miGuitarra</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+<body class="mg-negro">
+  <nav class="mg-barralateral mg-barra-bloque mg-chico mg-ocultar-chico mg-centrar">
+    <a routerLink="/verListado" routerLinkActive="Active"
+      class="mg-item-barra mg-boton mg-padding-grande mg-hover-negro">
+      <i class="fas fa-guitar mg-xxgrande"></i>
+      <p>Ver Lecciones</p>
+    </a>
+    <a routerLink="/realizarLeccion" routerLinkActive="Active"
+      class="mg-item-barra mg-boton mg-padding-grande mg-hover-negro">
+      <i class="fas fa-folder-plus mg-xxgrande"></i>
+      <p>Realizar Lección</p>
+    </a>
+  </nav>
+  <div class="mg-top mg-ocultar-grande mg-ocultar-mediano" id="myNavbar">
+    <div class="mg-barra mg-negro mg-opacidad mg-hover-opacidad-off mg-centrar mg-chico">
+      <a href="/verListado" class="mg-item-barra mg-boton" style="width:25% !important">Ver Lecciones</a>
+      <a href="/realizarLeccion" class="mg-item-barra mg-boton" style="width:25% !important">Realizar Lección</a>
+    </div>
+  </div>
+
+  <div class="mg-padding-grande" id="main">
+    <header class="mg-contenedor mg-padding-32 mg-centrar mg-negro" id="home">
+      <img src="../assets/images/miGuitarra.png" alt="Logo miGuitarra" style="width:100%">
+    </header>
+    <div class="mg-padding-64 mg-contenedor mg-texto-gris" id="verLecciones">
+      <h2 class="mg-texto-gris-claro">Ver Lecciones</h2>
+      <div class="float-right">
+        Filtrar por:
+        <div class="btn btn-dark btnFiltro" (click)="principiante=true;intermedio=false;avanzado=false;">Principiante
+        </div>
+        <div class="btn btn-dark btnFiltro" (click)="principiante=false;intermedio=true;avanzado=false;">Intermedio
+        </div>
+        <div class="btn btn-dark btnFiltro" (click)="principiante=false;intermedio=false;avanzado=true;">Avanzado</div>
+        <div class="btn btn-dark btnFiltro" (click)="principiante=true;intermedio=true;avanzado=true;">Todos</div>
+      </div>
+      <br>
+      <br>
+      <br>
+      <div *ngIf="lecciones">
+        <div class="container">
+          <div class="row">
+            <div class="leccion col-lg-4 col-md-6 col-sm-12 col-xs-12" *ngFor="let leccion of lecciones"
+              [hidden]="!mostrarLeccion(leccion.dificultad)">
+              <a routerLink="/leccion/{{leccion.lid}}" routerLinkActive="Active">
+                <span class="dificultad badge {{ badgeDificultad(leccion.dificultad) }}">{{leccion.dificultad}}</span>
+                <img src="{{ obtenerUrlImagen(leccion.url) }}" class="img-fluid" />
+                <h2 class="titulo">{{leccion.titulo }}</h2>
+                <p>{{leccion.descripcion}}</p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
